@@ -2,11 +2,11 @@ pipeline {
     agent any
     
     parameters {
-        booleanParam(name: 'Execute tests', defaultValue: true, description: '')
-        booleanParam(name: 'Run Sonar Scan', defaultValue: true, description: '')
+        booleanParam(name: 'EXECUTE_TESTS', defaultValue: true, description: '')
+        booleanParam(name: 'RUN_SONAR_SCAN', defaultValue: true, description: '')
         choice(name: 'ENVIRONMENT', choices: ['dev', 'stg', 'prod'], defaultValue: 'dev', description: 'Environment where the code should be deployed')
-        string(name: 'Branch', defaultValue: 'main', description: '')
-        booleanParam(name: 'Run migration', defaultValue: true, description: '')
+        string(name: 'BRANCH_NAME', defaultValue: 'main', description: '')
+        booleanParam(name: 'RUN_MIGRATION', defaultValue: true, description: '')
     }
     
     stages {
@@ -17,14 +17,15 @@ pipeline {
             }
         }
         
-        stage("Test") {
+        stage('Test') {
             when {
                 expression {
-                    env.BRANCH_NAME == 'dev'
+                    params.EXECUTE_TESTS
                 }
             }
             steps {
-                echo "Test the application"
+                dotnetTest project: 'CareerPath.sln', sdk: '.NET Linux SDK 6.0', logger: 'trx;logFileName=TestResult.trx', collect: 'XPlat Code Coverage'
+                mstest testResultsFile:"**/TestResult.trx", keepLongStdio: true
             }
         }
         
