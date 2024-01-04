@@ -4,7 +4,7 @@ pipeline {
     parameters {
         booleanParam(name: 'EXECUTE_TESTS', defaultValue: true, description: '')
         booleanParam(name: 'RUN_SONAR_SCAN', defaultValue: true, description: '')
-        choice(name: 'ENVIRONMENT', choices: ['dev', 'stg', 'prod'], defaultValue: 'dev', description: 'Environment where the code should be deployed')
+        choice(name: 'ENVIRONMENT', choices: ['dev', 'stg', 'prod'], description: 'Environment where the code should be deployed')
         string(name: 'BRANCH_NAME', defaultValue: 'main', description: '')
         booleanParam(name: 'RUN_MIGRATION', defaultValue: true, description: '')
     }
