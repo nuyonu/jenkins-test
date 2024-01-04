@@ -5,7 +5,7 @@ pipeline {
         stage("build") {
             steps {
                 echo "Build the application"
-                echo "${BRANCH_NAME}"
+                echo "Branch is ${env.BRANCH_NAME}"
             }
         }
         
@@ -17,14 +17,12 @@ pipeline {
             }
             steps {
                 echo "Test the application"
-                echo "${BRANCH_NAME}"
             }
         }
         
         stage("deploy") {
             steps {
                 echo "Deploy the application"
-                echo "${BRANCH_NAME}"
             }
         }
     }
