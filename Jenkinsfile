@@ -24,8 +24,11 @@ pipeline {
                 }
             }
             steps {
-//                 dotnetTest project: 'CareerPath.sln', sdk: '.NET Linux SDK 6.0', logger: 'trx;logFileName=TestResult.trx', collect: 'XPlat Code Coverage'
-                dotnetTest project: 'WebApplication3.sln', sdk: '.NET 8 Linux'
+               // Run tests and generate NUnit test result file
+                dotnetTest project: 'WebApplication3.sln', sdk: '.NET 8 Linux', args: '--logger "trx;LogFileName=TestResult.trx"'
+
+                // Publish test results to Jenkins
+                step([$class: 'NUnitPublisher', testResultsPattern: '**/TestResult.trx'])
             }
         }
         
