@@ -25,7 +25,7 @@ pipeline {
             }
             steps {
                // Run tests and generate NUnit test result file
-                bat 'dotnet test WebApplication3.sln --logger:trx'
+                sh 'dotnet test WebApplication3.sln --logger:trx'
 
                 // Publish test results to Jenkins
                 step([$class: 'NUnitPublisher', testResultsPattern: '**/TestResult.trx'])
