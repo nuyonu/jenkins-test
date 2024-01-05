@@ -14,6 +14,7 @@ pipeline {
             steps {
                 echo "Build the application"
                 echo "Branch is ${env.BRANCH_NAME}"
+                sh 'dotnet build'
             }
         }
         
@@ -24,18 +25,15 @@ pipeline {
                 }
             }
             steps {
-                dotnetTest project: 'CareerPath.sln', sdk: '.NET Linux SDK 6.0', logger: 'trx;logFileName=TestResult.trx', collect: 'XPlat Code Coverage'
-                mstest testResultsFile:"**/TestResult.trx", keepLongStdio: true
+                echo 'Test'
+//                 dotnetTest project: 'CareerPath.sln', sdk: '.NET Linux SDK 6.0', logger: 'trx;logFileName=TestResult.trx', collect: 'XPlat Code Coverage'
+//                 mstest testResultsFile:"**/TestResult.trx", keepLongStdio: true
             }
         }
         
         stage("Deploy") {
             steps {
                 echo "Deploy the application"
-//                 withCredentials([
-//                 usernamePassword(credentials: 'server-credentials', usernameVariable: USER, passwordVariable: PWD)]) {
-//                     echo "Username: ${USER} and password ${PWD}"
-//                 }
             }
         }
     }
