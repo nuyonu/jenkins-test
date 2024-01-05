@@ -24,9 +24,8 @@ pipeline {
                 }
             }
             steps {
-                echo 'Test'
 //                 dotnetTest project: 'CareerPath.sln', sdk: '.NET Linux SDK 6.0', logger: 'trx;logFileName=TestResult.trx', collect: 'XPlat Code Coverage'
-//                 mstest testResultsFile:"**/TestResult.trx", keepLongStdio: true
+                dotnetTest project: 'WebApplication3.sln', sdk: '.NET 8 Linux'
             }
         }
         
