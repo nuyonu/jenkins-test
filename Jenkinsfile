@@ -12,9 +12,9 @@ pipeline {
     stages {
         stage("Build") {
             steps {
-                sh 'export PATH=/usr/local/share/dotnet:$PATH'
                 echo "Build the application"
                 echo "Branch is ${env.BRANCH_NAME}"
+                sh 'dotnet restore'
                 sh 'dotnet build'
             }
         }
