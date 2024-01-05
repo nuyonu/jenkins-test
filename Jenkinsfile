@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage("Build") {
             steps {
-                sh "export PATH=${PATH}:${HOME}/.dotnet/tools"
+                sh 'export PATH=/usr/local/share/dotnet:$PATH'
                 echo "Build the application"
                 echo "Branch is ${env.BRANCH_NAME}"
                 sh 'dotnet build'
