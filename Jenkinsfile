@@ -12,10 +12,8 @@ pipeline {
     stages {
         stage("Build") {
             steps {
-                echo "Build the application"
-                echo "Branch is ${env.BRANCH_NAME}"
-                sh 'dotnet restore'
-                sh 'dotnet build'
+                dotnetRestore project: 'WebApplication3.sln', sdk: '.NET 8 Linux'
+                dotnetBuild project: 'WebApplication3.sln', sdk: '.NET 8 Linux'
             }
         }
         
