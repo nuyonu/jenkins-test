@@ -9,10 +9,20 @@ pipeline {
         booleanParam(name: 'RUN_MIGRATION', defaultValue: true, description: '')
     }
     
+    environment {
+        GITHUB_URL = 'https://github.com/nuyonu/jenkins-test'
+        GITHUB_CREDENTIALS_NAME = 'nuyonu-github-username-PAT'
+    }
+    
     stages {
+        stage("Checkout") {
+           steps {
+                git branch: "${BRANCH_NAME}", credentialsId: env.GITHUB_CREDENTIALS_NAME, url: env.GITHUB_URL
+           }
+        }
+        
         stage("Build") {
             steps {
-                dotnetRestore project: 'WebApplication3.sln', sdk: '.NET 8 Linux'
                 dotnetBuild project: 'WebApplication3.sln', sdk: '.NET 8 Linux'
             }
         }
@@ -24,8 +34,8 @@ pipeline {
                 }
             }
             steps {
-//                 dotnetTest project: 'WebApplication3.sln', sdk: '.NET 8 Linux'
-                dotnetTest logger: 'trx;LogFileName=UnitTests.trx', project: 'WebApplication3.sln', sdk: '.NET 8 Linux'
+                dotnetTest noBuild: true, logger: 'trx;LogFileName=UnitTests.trx', project: 'WebApplication3.sln', sdk: '.NET 8 Linux'
+                xunit checksName: '', tools: [MSTest(excludesPattern: '', pattern: '**/*.trx', skipNoTestFiles: true, stopProcessingIfError: true)]
             }
         }
         
