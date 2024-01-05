@@ -24,11 +24,8 @@ pipeline {
                 }
             }
             steps {
-               // Run tests and generate NUnit test result file
-                sh 'dotnet test WebApplication3.sln --logger:trx'
-
-                // Publish test results to Jenkins
-                step([$class: 'NUnitPublisher', testResultsPattern: '**/TestResult.trx'])
+//                 dotnetTest project: 'WebApplication3.sln', sdk: '.NET 8 Linux'
+                dotnetTest logger: 'trx;LogFileName=UnitTests.trx', project: 'WebApplication3.sln', sdk: '.NET 8 Linux'
             }
         }
         
